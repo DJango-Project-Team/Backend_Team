@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>일단 저장시 나오는 임시 페이지(수정요망)</title>
+</head>
+<body>
+<p>성공적으로 저장되셨습니다.</p>
+<div>
+    <form method="GET" action="{% url 'login' %}">
+              {% csrf_token %} <!--CSRF 공격방지 -->
+            <input type="submit" value="홈으로">
+    </form>
+</div>
+
+</body>
+</html>
