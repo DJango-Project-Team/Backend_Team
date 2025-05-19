@@ -1,0 +1,40 @@
+<!-- main.html -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>동아리 목록</title>
+</head>
+<body>
+    <div style="text-align: right; margin: 10px;">
+    {% if request.session.user_name %}
+        {{ request.session.user_name }}님 환영합니다!&nbsp;
+        <form action="{% url 'application_inventory' %}" method="POST" style="display: inline;">
+            {% csrf_token %}
+            <button>신청 목록</button>
+        </form>
+        <form action="{% url 'logout' %}" method="POST" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit">로그아웃</button>
+        </form>
+    {% else %}
+        <a href="{% url 'login' %}">
+            <button>로그인</button>
+        </a>
+        <a href="{% url 'signup' %}">
+            <button>회원가입</button>
+        </a>
+    {% endif %}
+    </div>
+
+    <h1>동아리 목록</h1>
+    <ul>
+        {% for club in clubs %}
+            <li>
+                <a href="{% url 'club_detail' club.id %}">{{ club.name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+</body>
+</html>

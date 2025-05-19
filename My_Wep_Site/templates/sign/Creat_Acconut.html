@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>동아리 사이트 회원가입 페이지</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 90vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        input {
+            height: 35px;
+            width: 250px;
+            margin: 10px 0;
+            font-size: 12px;
+        }
+        .sun{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="sun">
+        <h1>회원가입 페이지</h1>
+        <hr/>
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert {{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+        <form method="POST">
+            {%  csrf_token %}
+          <input type="email" name="sign_up_email" placeholder="이메일 주소"required><br>
+          <input type="password" name="sign_up_password" placeholder=" 비밀번호" autocomplete="new-password" value="" required><br>
+            <input type="text" name="sign_up_name" placeholder=" 성명" required><br>
+          <input type="text" name="sign_up_id" placeholder=" 사용자 아이디" autocomplete="off" value="" required><br> <!--여기는 아이디-->
+          <input type="submit" value="계정 생성">
+        </form>
+        <form method="GET" action="{% url 'login' %}">
+              {% csrf_token %} <!--CSRF 공격방지 -->
+            <input type="submit" value="뒤로">
+        </form>
+    </div>
+</head>
+
+<style>
+    .alert {
+        margin: 10px 0;
+        padding: 10px;
+        border-radius: 5px;
+        font-weight: bold;
+        color: red;
+        background-color: #f8d7da;
+        border: 1px solid #f5c6cb;
+        animation: fadeout 0.5s ease-in-out forwards;
+    }
+
+    /* 사라지는 애니메이션 효과 */
+    @keyframes fadeout {
+        from { opacity: 1; }
+        to { opacity: 0; }
+    }
+</style>
+
+<script>
+    // 페이지 로드 후 메시지를 3초 뒤에 사라지게 함
+    window.onload = function() {
+        setTimeout(function() {
+            var messageContainer = document.getElementById('message-container');
+            if (messageContainer) {
+                messageContainer.style.transition = 'opacity 2.5s ease';
+                messageContainer.style.opacity = '0';
+                setTimeout(function() {
+                    messageContainer.remove();
+                }, 500); // 페이드 아웃 후 완전히 제거
+            }
+        }, 5000); // 3초 뒤에 사라짐
+    }
+</script>
+
+</body>
+</html>

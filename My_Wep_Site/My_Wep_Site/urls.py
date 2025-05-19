@@ -15,16 +15,13 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 # from django.contrib import admin
-from django.urls import path
-from polls.views import login_view
-from polls.views import sign_up_view
+from django.urls import path, include
+from sign.views import login_view
+from sign.views import sign_up_view
 
 
 
 urlpatterns = [
-    #    path('admin/', admin.site.urls),
-    path('login/', login_view, name='login'),
-    path('signup/', sign_up_view, name='signup'),  # 회원가입 페이지
-    path('', login_view, name='home'),
-
+    path('', include('clubWeb.urls')),  # 루트로 바로 연결
+    path('sign/', include('sign.urls')),
 ]

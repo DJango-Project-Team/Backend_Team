@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>동아리 신청 해보기</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 90vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        input {
+            height: 35px;
+            width: 250px;
+            margin: 10px 0;
+            font-size: 12px;
+        }
+        .sun{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="sun">
+        <h1>동아리 신청 사이트</h1>
+        <hr/>
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert {{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+        <form method="POST" autocomplete="off"> <!-- 자동완성기능 해제 -->
+            {%  csrf_token %}
+          <input type="text" name="user_input" placeholder="사용자 이름 또는 이메일 주소" autocomplete="off" value="" required><br>
+          <input type="password" name="sign_up_password" placeholder=" 비밀번호" autocomplete="new-password" value="" required><br>
+          <input type="submit" value="신청하기">
+        </form>
+        <form method="GET" action="{% url 'signup' %}">
+             {%  csrf_token %} <!--CSRF 공격방지 -->
+        <input type="submit" value="가입하기"> <!-- 회원가입 페이지 이동 -->
+        </form>
+    </div>
+
+<style>
+    .alert {
+        margin: 10px 0;
+        padding: 10px;
+        border-radius: 5px;
+        font-weight: bold;
+        color: red;
+        background-color: #f8d7da;
+        animation: fadeout 0.5s ease-in-out forwards;
+    }
+
+    /* 사라지는 애니메이션 효과 */
+    @keyframes fadeout {
+        from { opacity: 1; }
+        to { opacity: 0; }
+    }
+</style>
+
+<script>
+    // 로드후 사라지게함
+    window.onload = function() {
+        setTimeout(function() {
+            var messageContainer = document.getElementById('message-container');
+            if (messageContainer) {
+                messageContainer.style.transition = 'opacity 2.5s ease';
+                messageContainer.style.opacity = '0';
+                setTimeout(function() {
+                    messageContainer.remove();
+                }, 500);
+            }
+        }, 5000); // 3초 뒤에 사라짐
+    }
+</script>
+
+</body>
+</html>
